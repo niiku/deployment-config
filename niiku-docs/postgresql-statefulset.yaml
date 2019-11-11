@@ -30,7 +30,7 @@ spec:
             - |
               mkdir -p /bitnami/postgresql/data
               chmod 700 /bitnami/postgresql/data
-              find /bitnami/postgresql -mindepth 0 -maxdepth 1 -not -name ".snapshot" -not -name "lost+found" | \
+              find /bitnami/postgresql/data -mindepth 0 -maxdepth 1 -not -name ".snapshot" -not -name "lost+found" | \
                 xargs chown -R 1002300000:1002300000
           securityContext:
             runAsUser: 1002300000
