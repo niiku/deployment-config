@@ -20,6 +20,24 @@ spec:
         app: confluence
         component: postgresql
     spec:
+      initContainers:
+        - name: init-chmod-data
+          image: docker.io/bitnami/minideb:stretch
+          imagePullPolicy: "IfNotPresent"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /bitnami/postgresql/data
+              chmod 700 /bitnami/postgresql/data
+              find /bitnami/postgresql -mindepth 0 -maxdepth 1 -not -name ".snapshot" -not -name "lost+found" | \
+                xargs chown -R 1002300000:1002300000
+          securityContext:
+            runAsUser: 1002300000
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/postgresql
+              subPath: 
       securityContext:
         fsGroup: 1002300000
       containers:
